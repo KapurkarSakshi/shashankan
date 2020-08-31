@@ -1,0 +1,101 @@
+LOGIN TABLE:-
+create table login_tbl ( user_name varchar2(15) primary key,
+user_pass varchar2(15),user_role varchar2(15));
+insert into login_tbl values ('admin','admin','admin');
+insert into login_tbl values ('customer','customer123','customer');
+insert into login_tbl values ('user','user123','user');
+commit;
+-----------------------------------------------------Theatre table---------------------------------------------------------
+
+drop table movie_theater_tbl CASCADE CONSTRAINTS;
+
+drop sequence onlinemovie_theater_seq;
+
+create table movie_theater_tbl(
+	theater_id number(6) primary key,
+	theater_name varchar2(15),
+	theater_city varchar2(15),
+	manager_name varchar2(15),
+	manager_contact varchar(10)
+       ); 
+
+create sequence onlinemovie_theater_seq start with 1000;
+
+insert into movie_theater_tbl values(onlinemovie_theater_seq.nextval,'Imax','HYD','sai','7894561230');
+
+insert into movie_theater_tbl values(onlinemovie_theater_seq.nextval,'shiva','HYD','rahul','7894561310');
+
+insert into movie_theater_tbl values(onlinemovie_theater_seq.nextval,'Asian','HYD','shashank','9874561230');
+
+-------------------------------movie table--------------------------------------------------
+drop table movie_tbl CASCADE CONSTRAINTS;
+
+drop sequence onlinemovie_movie_seq;
+
+create table movie_tbl
+(movie_id number(6) primary key, 
+movie_name varchar2(15), 
+language varchar2(15), 
+director varchar2(15), 
+genre varchar2(15),
+movie_length number(15),
+theater_id number(6),
+foreign key(theater_id) references movie_theater_tbl(theater_id));
+
+create sequence onlinemovie_movie_seq start with 1000 ;
+
+insert into movie_tbl values(onlinemovie_movie_seq.nextval,'Bahubali','Telugu','Rajamouli','action',180,1000);
+
+insert into movie_tbl values(onlinemovie_movie_seq.nextval,'KGF','kanada','Prashanth','action',120,1001);
+
+insert into movie_tbl values(onlinemovie_movie_seq.nextval,'3 Idiots','Hindi','Rajkumar','drama',150,1002);
+
+-----------------------------------show table-------------------------------------------------------------------
+drop table movie_show_tbl CASCADE CONSTRAINTS;
+
+drop sequence onlinemovie_show_seq;
+
+create table movie_show_tbl(
+show_id number(6) primary key,
+show_name varchar2(25),
+seats number(6),
+show_date date,
+screen_name varchar2(25),
+movie_id number(6),
+foreign key(movie_id) references movie_tbl(movie_id));
+
+create sequence onlinemovie_show_seq start with 1000 ;
+
+insert into movie_show_tbl values(onlinemovie_show_seq.nextval,'morning show',45,TO_DATE('17/12/2015', 'DD/MM/YYYY'),'screen1', 1000);
+
+insert into movie_show_tbl values(onlinemovie_show_seq.nextval,'matinee show',45,TO_DATE('17/12/2015', 'DD/MM/YYYY'),'screen2', 1001);
+
+insert into movie_show_tbl values(onlinemovie_show_seq.nextval,'evening show',45,TO_DATE('17/12/2015', 'DD/MM/YYYY'),'screen3', 1002);
+
+----------------------------------------------Booking table----------------------------------------------------------
+drop table movie_booking_tbl CASCADE CONSTRAINTS;
+
+drop sequence onlinemovie_booking_seq;
+
+create table movie_booking_tbl(
+booking_id number(6) primary key,
+booking_date date,
+no_of_tkts number(6),
+total_cost number(8,2),
+user_name varchar2(15),
+contact varchar2(10),
+show_id number(6),
+foreign key(show_id) references movie_show_tbl(show_id));
+
+create sequence onlinemovie_booking_seq start with 1000;
+
+insert into movie_booking_tbl values(onlinemovie_booking_seq.nextval,TO_DATE('14/08/2020', 'DD/MM/YYYY'), 4, 400, 'user','1234567890',1001);
+
+insert into movie_booking_tbl values(onlinemovie_booking_seq.nextval,TO_DATE('14/08/2020', 'DD/MM/YYYY'), 2,200,'user123','9989733571',1002);
+
+insert into movie_booking_tbl values(onlinemovie_booking_seq.nextval,TO_DATE('13/08/2020', 'DD/MM/YYYY'), 6,600,'customer123','9989833571',1003);
+
+
+
+
+
